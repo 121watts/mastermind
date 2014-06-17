@@ -1,5 +1,4 @@
 class PatternGenerator
-
   attr_reader :options, :random_pattern
 
   def initialize
@@ -15,9 +14,9 @@ class PatternGenerator
   end
 end
 
-pattern = PatternGenerator.new
-pattern.generate
-puts pattern.random_pattern
+# pattern = PatternGenerator.new
+# pattern.generate
+# pattern.random_pattern
 
   # This used to look like this:
   #
