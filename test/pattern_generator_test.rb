@@ -5,10 +5,11 @@ require_relative '../lib/pattern_generator'
 
 class PatternGeneratorTest<Minitest::Test
 
-  def test_if_pattern_is_generated
+  def test_if_patterns_are_not_equal
     pattern = PatternGenerator.new
     code = pattern.generate
-    assert_equal [random_pattern],  code.radom_pattern
+    code2 = pattern.generate
+    refute code == code2 
   end
 
 end

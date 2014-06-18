@@ -6,7 +6,6 @@ class PatternMatcher
     @user_guess = user_guess.split('')
     @pattern = pattern.split('')
     @output = {correct_content:0, correct_position:0, full_match: false}
-
   end
 
   def arrays_match?

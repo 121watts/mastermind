@@ -28,5 +28,4 @@ class GuessHolderTest<Minitest::Test
     guess.add_guess("RRRR")
     assert_equal ["RRRR","GGGG"], guess.user_history
   end
-
 end

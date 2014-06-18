@@ -10,7 +10,7 @@ class GuessValidator
     @user_guess.length == 4 ? true : false
   end
 
-  def correct_characters?
+  def correct_letters?
     input = @user_guess.split('')
     valid = %w(r b g y)
 
