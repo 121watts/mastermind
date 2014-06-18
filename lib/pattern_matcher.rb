@@ -14,10 +14,12 @@ class PatternMatcher
   end
 
   def content_match
-    pattern.each_with_index do |element, index|
-      if user_guess.include?(element)
+    user = user_guess.dup
+    pattern.each do |element|
+      if user.include?(element)
         @output[:correct_content] += 1
-        user_guess.delete(index)
+        index = user.find_index(element)
+        user.delete_at(index)
       end
     end
   end

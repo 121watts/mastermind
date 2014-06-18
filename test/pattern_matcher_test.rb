@@ -4,7 +4,7 @@ require 'minitest/pride'
 require_relative '../lib/pattern_matcher'
 
 class PatternMatcherTest<Minitest::Test
-
+  
   def test_if_patterns_are_strings
     matcher = PatternMatcher.new("RRRR", "GGGG")
     assert_equal matcher.user_guess.class, matcher.pattern.class
@@ -21,9 +21,9 @@ class PatternMatcherTest<Minitest::Test
   end
 
   def test_pattern_match_number
-    matcher = PatternMatcher.new("RRYY", "RRGG")
+    matcher = PatternMatcher.new("zzzz", "qqqq")
     matcher.content_match
-    assert_equal 2, matcher.output[:correct_content]
+    assert_equal 0, matcher.output[:correct_content]
   end
 
   def test_pattern_matches_different_number_of_matches
