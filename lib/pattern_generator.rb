@@ -4,7 +4,7 @@ class PatternGenerator
   attr_reader :random_pattern
 
   def initialize(letters)
-    @letters = letters
+    @letters = letters.split('')
     @random_pattern = []
   end
 

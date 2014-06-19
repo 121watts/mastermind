@@ -4,11 +4,11 @@ require './lib/guess_validator'
 require './lib/game.rb'
 
 class CLI
-  attr_reader :user_input
+  attr_reader :user_input, :secret_pattern
 
   def initialize
     @user_input = ''
-    # PatternGenerator.new('rgby')
+    @secret_pattern = PatternGenerator.new('rygb').generate
   end
 
   def start
@@ -23,6 +23,9 @@ class CLI
         instructions
       when 'p'
         execute
+      else
+      puts "Sorry, I don't know how to (#{user_input})"
+      CLI.new.start
     end
   end
 
@@ -36,29 +39,34 @@ class CLI
       puts 'Later biatch'
     when 'p'
       execute
+    else
+      puts "Sorry, I don't know how to (#{user_input})"
+      CLI.new.start
     end
   end
 
   def execute
-    until user_input == "q"
+    until (user_input == "q") || (@content_match == 4 && @position_match == 4)
       print "Enter your guess: "
       @user_input = gets.chomp
       validator = GuessValidator.new(@user_input)
         if validator.correct_length? == false || validator.correct_letters? == false
           puts 'Your guess must be a length of FOUR and'
           puts 'be of these colors (r)ed, (y)ellow, (g)reen, (b)lue'
-        elsif
-          @secret_pattern = PatternGenerator.new(%w(r y g b)).generate
+        else
           puts @secret_pattern
-          matcher   = PatternMatcher.new(@user_input, @secret_pattern.join)
+          matcher = PatternMatcher.new(@user_input, @secret_pattern)
           matcher.content_match
           matcher.position_match
-          content_match  = matcher.output[:correct_content]
-          position_match = matcher.output[:correct_position]
-          puts "You have #{content_match} content matches and #{position_match} position matches"
+          @content_match  = matcher.output[:correct_content]
+          @position_match = matcher.output[:correct_position]
+          puts "You have #{@content_match} content matches and #{@position_match} position matches"
+          if @content_match == 4 && @position_match == 4
+            puts "you win"
+          end
         end
     end
-    puts "Thanks for playing Mastermind"
+    puts "Thanks for playing MASTERmind"
   end
 end
 

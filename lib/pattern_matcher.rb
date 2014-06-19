@@ -4,7 +4,7 @@ class PatternMatcher
 
   def initialize(user_guess, pattern)
     @user_guess = user_guess.split('')
-    @pattern = pattern.split('')
+    @pattern = pattern
     @output = {correct_content:0, correct_position:0, full_match: false}
   end
 
