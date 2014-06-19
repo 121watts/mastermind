@@ -3,12 +3,15 @@ require './lib/pattern_matcher'
 require './lib/guess_validator'
 require './lib/game.rb'
 
+
 class CLI
-  attr_reader :user_input, :secret_pattern
+  attr_reader :user_input, :secret_pattern, :turns, :total_turns
 
   def initialize
     @user_input = ''
     @secret_pattern = PatternGenerator.new('rygb').generate
+    @turns = 0
+    @turns_left = 14
   end
 
   def start
@@ -46,10 +49,12 @@ class CLI
   end
 
   def execute
-    until (user_input == "q") || (@content_match == 4 && @position_match == 4)
+    until (user_input == "q") || (@position_match == 4)
       print "Enter your guess: "
       @user_input = gets.chomp
       validator = GuessValidator.new(@user_input)
+      @turns += 1
+      @turns_left -= 1
         if validator.correct_length? == false || validator.correct_letters? == false
           puts 'Your guess must be a length of FOUR and'
           puts 'be of these colors (r)ed, (y)ellow, (g)reen, (b)lue'
@@ -61,14 +66,21 @@ class CLI
           @content_match  = matcher.output[:correct_content]
           @position_match = matcher.output[:correct_position]
           puts "You have #{@content_match} content matches and #{@position_match} position matches"
-          if @content_match == 4 && @position_match == 4
-            puts "you win"
+          puts "You have taken #{@turns} turn(s)"
+          puts "#{@turns_left} turns left!"
+          if @position_match == 4
+            puts "You win!"
+          end
+          if @turns_left == 0
+            puts "You LOOOOOOSE Muahahahah!"
           end
         end
     end
     puts "Thanks for playing MASTERmind"
   end
 end
+
+
 
 
 CLI.new.start
