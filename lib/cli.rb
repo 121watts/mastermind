@@ -5,19 +5,19 @@ require './lib/game.rb'
 
 
 class CLI
-  attr_reader :user_input, :secret_pattern, :turns, :total_turns
+  attr_reader :user_input, :secret_pattern, :turns, :total_turns, :time
 
   def initialize
     @user_input = ''
     @secret_pattern = PatternGenerator.new('rygb').generate
     @turns = 0
     @turns_left = 14
+    @time = Time.new
   end
 
   def start
-    puts "Welcome to MASTERmind"
     puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
-    print "Enter your command:"
+    print "enter command ~> "
     user_input = gets.strip.downcase
     case user_input
       when 'q'
@@ -50,8 +50,8 @@ class CLI
 
   def execute
     until (user_input == "q") || (@position_match == 4)
-      print "Enter your guess: "
-      @user_input = gets.chomp
+      print "enter your guess ~> "
+      @user_input = gets.chomp.downcase
       validator = GuessValidator.new(@user_input)
       @turns += 1
       @turns_left -= 1
@@ -59,17 +59,19 @@ class CLI
           puts 'Your guess must be a length of FOUR and'
           puts 'be of these colors (r)ed, (y)ellow, (g)reen, (b)lue'
         else
-          puts @secret_pattern
           matcher = PatternMatcher.new(@user_input, @secret_pattern)
           matcher.content_match
           matcher.position_match
+          puts @secret_pattern
           @content_match  = matcher.output[:correct_content]
           @position_match = matcher.output[:correct_position]
           puts "You have #{@content_match} content matches and #{@position_match} position matches"
           puts "You have taken #{@turns} turn(s)"
           puts "#{@turns_left} turns left!"
           if @position_match == 4
-            puts "You win!"
+            minutes = Time.now.min - @time.min
+            seconds = Time.now.sec - @time.sec
+            puts "You won in #{minutes} min and #{seconds} secs!"
           end
           if @turns_left == 0
             puts "You LOOOOOOSE Muahahahah!"
