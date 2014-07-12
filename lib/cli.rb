@@ -50,9 +50,7 @@ class CLI
   end
 
   def instructions
-    puts "I have generated a beginner sequence with four elements made up of: #{'(r)ed'.red},"
-    puts "#{'(g)reen'.green}, #{'(b)lue'.blue}, and #{'(y)ellow'.yellow}. Use (q)uit at any time to end the game."
-    print "Let's (p)lay:"
+    instructions_text
     user_input = gets.strip.downcase
     case user_input
     when 'q'
@@ -63,6 +61,12 @@ class CLI
       puts "Sorry, I don't know how to (#{user_input})"
       instructions
     end
+  end
+
+  def instructions_text
+    puts "I have generated a beginner sequence with four elements made up of: #{'(r)ed'.red},"
+    puts "#{'(g)reen'.green}, #{'(b)lue'.blue}, and #{'(y)ellow'.yellow}. Use (q)uit at any time to end the game."
+    print "Let's (p)lay:"
   end
 
   def execute
@@ -85,19 +89,25 @@ class CLI
           puts "You have taken #{@turns} turn(s)"
           puts "#{@turns_left} turn(s) left!"
           if @position_match == 4
-            minutes = Time.now.min - @time.min
-            seconds = Time.now.sec - @time.sec
-            puts "You won in #{minutes.abs} min and #{seconds.abs} secs!"
+          timer
           end
           if @turns_left == 0
             puts "You LOOOOOOSE Muahahahah!"
           end
         end
-    end
+      end
     puts "Thanks for playing MASTERmind"
   end
-end
 
+  def timer
+    minutes = Time.now.min - @time.min
+    seconds = Time.now.sec - @time.sec
+    puts "You won in #{minutes.abs} min and #{seconds.abs} secs!"
+  end
+
+
+
+end
 
 
 
